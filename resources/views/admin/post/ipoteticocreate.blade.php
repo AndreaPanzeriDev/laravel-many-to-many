@@ -30,6 +30,17 @@
         </div>
 
 
+        {{--Tags --}}
+
+        <div class="my-3">
+            <label for="">Tags</label>
+            @foreach ($tags as $tag )
+                <input type="checkbox" name="tags[]" value="{{$tag->id}}">
+                {{$tag->name}}
+            @endforeach
+        </div>
+
+
         <button type="submit" class="btn btn-primary">Add Comic</button>
 
     </form>
