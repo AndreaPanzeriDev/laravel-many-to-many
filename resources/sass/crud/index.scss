@@ -1,0 +1,56 @@
+.containerM{
+    width: 80%;
+    margin: auto;
+}
+
+
+.cards{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.cardM{
+    background-color: sandybrown;
+    width: 32%;
+    border-radius: 15px;
+    margin: 5px 0;
+}
+
+.buttons{
+    text-align: center;
+    margin: 20px;
+}
+
+.buttons *{
+    padding: 5px 10px;
+    border: none;
+    border-radius: 15px;
+}
+
+.editB{
+    color: black;
+    background-color: yellow;
+}
+
+.deleteB{
+    color: white;
+    background-color: red;
+}
+
+.function{
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.buttonN{
+    padding: 5px 15px;
+    border: none;
+    border-radius: 15px;
+    background-color: rgb(0, 145, 241);
+}
+
+.buttonN > a{
+    color: white;
+}
