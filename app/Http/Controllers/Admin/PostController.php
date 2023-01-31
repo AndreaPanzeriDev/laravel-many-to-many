@@ -20,6 +20,8 @@ class PostController extends Controller
     public function index()
     {
         //
+        $info_posts = Post::all();
+        return view('admin.post.index', compact('info_posts'));
     }
 
     /**
@@ -56,11 +58,14 @@ class PostController extends Controller
         $new_record -> fill($data);
         $new_record->save();
 
+        //rivedire
         if(array_key_exists('tags', $data)){
             $new_record->tags()->sync($data['tags']);
         }
 
-        return redirect()->route('admin.post.index', ['posts' => $new_record->id]);
+
+
+        return redirect()->route('admin.posts.index');
     }
 
     /**

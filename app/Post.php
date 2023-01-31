@@ -19,10 +19,10 @@ class Post extends Model
 
     public function category(){
         //il post ha solo una category associata
-        return $this->belongsTo('App/Category');
+        return $this->belongsTo('App\Category');
     }
 
     public function tags(){
-        return $this->belongsToMany('App/Tag');
+        return $this->belongsToMany('App\Tag');
     }
 }

@@ -17,9 +17,9 @@ class CreatePostTagTable extends Migration
 
             $table->unsignedBigInteger('post_id');
             $table->foreign('post_id')->references('id')->on('posts');
-
-            $table->unsignedBigInteger('tags_id');
-            $table->foreign('tags_id')->references('id')->on('tags');
+            //singolare
+            $table->unsignedBigInteger('tag_id');
+            $table->foreign('tag_id')->references('id')->on('tags');
 
         });
     }
