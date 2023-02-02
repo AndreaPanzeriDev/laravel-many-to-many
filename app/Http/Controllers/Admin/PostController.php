@@ -9,6 +9,10 @@ use App\Tag;
 use Illuminate\Contracts\Cache\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\CreatePostMail;
+
 
 class PostController extends Controller
 {
@@ -70,6 +74,11 @@ class PostController extends Controller
             $new_record->tags()->sync($data['tags']);
         }
 
+        $mail= new CreatePostMail($new_record);
+        $dexter = Auth::user()->email;
+        //dd($dexter);
+        Mail::to($dexter)->send($mail);
+
         return redirect()->route('admin.posts.index');
     }
 
@@ -118,6 +127,8 @@ class PostController extends Controller
         } else {
             $post->tags()->sync([]);
         }
+
+
 
         return redirect()->route('admin.index');
     }
