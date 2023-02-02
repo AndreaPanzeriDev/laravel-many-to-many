@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <form method="POST" class="w-75 m-auto my-3" action="{{ route('admin.posts.update', $file->id) }}">
+    <form method="POST" class="w-75 m-auto my-3" action="{{ route('admin.posts.update', $file->id) }}" enctype="multipart/form-data">
 
         @csrf
         @method('PUT')
@@ -42,6 +42,13 @@
                     {{ $tag->name }}
                 </label>
             @endforeach
+        </div>
+
+        {{-- Immage --}}
+
+        <div class="my-3">
+            <label for="">Aggiungi immagine</label>
+            <input type="file" name="image">
         </div>
 
 

@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Post;
 use App\Category;
-use App\Tag;
-
 use App\Http\Controllers\Controller;
-
+use App\Post;
+use App\Tag;
+use Illuminate\Contracts\Cache\Store;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -32,7 +32,7 @@ class PostController extends Controller
     public function create()
     {
         //
-        $categories= Category::all();
+        $categories = Category::all();
         $tags = Tag::all();
 
         return view('admin.post.ipoteticocreate', compact('categories', 'tags'));
@@ -51,19 +51,24 @@ class PostController extends Controller
 
         $request->validate([
             'title' => 'required',
-            'body' => 'required'
+            'body' => 'required',
         ]);
 
+
+        if (array_key_exists('image', $data)) {
+            $url_image = Storage::put('post_image', $data['image']);
+            $data['image'] = $url_image;
+
+        }
+
         $new_record = new Post();
-        $new_record -> fill($data);
+        $new_record->fill($data);
         $new_record->save();
 
         //rivedire
-        if(array_key_exists('tags', $data)){
+        if (array_key_exists('tags', $data)) {
             $new_record->tags()->sync($data['tags']);
         }
-
-
 
         return redirect()->route('admin.posts.index');
     }
@@ -77,7 +82,7 @@ class PostController extends Controller
     public function show($id)
     {
         $single_post = Post::findOrFail($id);
-        dd($single_post);
+
         return view('admin.post.ipoteticoshow', compact('single_post'));
     }
 
@@ -108,9 +113,9 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
         $post->update($infoP);
 
-        if(array_key_exists('tags', $infoP)){
+        if (array_key_exists('tags', $infoP)) {
             $post->tags()->sync($infoP['tags']);
-        }else{
+        } else {
             $post->tags()->sync([]);
         }
 
@@ -126,8 +131,11 @@ class PostController extends Controller
     public function destroy($id)
     {
         $postToDelete = Post::findOrFail($id);
+        if($postToDelete->image){
+            Storage::delete($postToDelete->image); // comando per eliminarlo dal computer/server
+        }
         $postToDelete->tags()->sync([]);
-        $postToDelete -> delete();
+        $postToDelete->delete();
 
         return redirect()->route('admin.index');
     }

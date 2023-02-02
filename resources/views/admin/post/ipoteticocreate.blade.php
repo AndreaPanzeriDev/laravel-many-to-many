@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <form method="POST" class="w-75 m-auto my-3" action="{{ route('admin.posts.store') }}">
+    <form method="POST" class="w-75 m-auto my-3" action="{{ route('admin.posts.store') }}" enctype="multipart/form-data">
 
         @csrf
 
@@ -40,6 +40,13 @@
             @endforeach
         </div>
 
+
+        {{-- Immage --}}
+
+        <div class="my-3">
+            <label for="">Aggiungi immagine</label>
+            <input type="file" name="image">
+        </div>
 
         <button type="submit" class="btn btn-primary">Add Comic</button>
 
