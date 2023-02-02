@@ -77,6 +77,7 @@ class PostController extends Controller
     public function show($id)
     {
         $single_post = Post::findOrFail($id);
+        dd($single_post);
         return view('admin.post.ipoteticoshow', compact('single_post'));
     }
 
@@ -90,7 +91,8 @@ class PostController extends Controller
     {
         $file = Post::findOrFail($id);
         $categories = Category::all();
-        return view('admin.post.ipoteticoedit', compact('file', 'categories'));
+        $tags = Tag::all();
+        return view('admin.post.ipoteticoedit', compact('file', 'categories', 'tags'));
     }
 
     /**
@@ -106,6 +108,12 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
         $post->update($infoP);
 
+        if(array_key_exists('tags', $infoP)){
+            $post->tags()->sync($infoP['tags']);
+        }else{
+            $post->tags()->sync([]);
+        }
+
         return redirect()->route('admin.index');
     }
 
@@ -118,6 +126,7 @@ class PostController extends Controller
     public function destroy($id)
     {
         $postToDelete = Post::findOrFail($id);
+        $postToDelete->tags()->sync([]);
         $postToDelete -> delete();
 
         return redirect()->route('admin.index');
